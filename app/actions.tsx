@@ -18,9 +18,10 @@ import { BookCard } from '@/components/book-card'
 import { ExerciseCard } from '@/components/exercise-card'
 import { Skeleton } from '@/components/skeleton'
 
-// Initialize Qwen AI provider
+// Initialize Qwen AI provider with Ollama
 const qwen = createQwen({
-  apiKey: process.env.DASHSCOPE_API_KEY,
+  baseURL: process.env.QWEN_BASE_URL || 'http://localhost:11434/v1',
+  apiKey: process.env.QWEN_API_KEY || 'ollama',
 })
 
 // Define available tools for the AI
@@ -382,7 +383,7 @@ export async function continueConversation(
   const uiStream = createStreamableUI()
 
   const result = await streamUI({
-    model: qwen('qwen-plus'),
+    model: qwen('qwen2.5:8b'),
     system: `You are a helpful assistant that can display rich UI components.
 When users ask about stocks, weather, products, flights, recipes, news, hotels, events, restaurants, movies, books, or exercises, use the appropriate tool to show visual information.
 Be conversational and helpful. Always try to use tools when appropriate to make the response more engaging.

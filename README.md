@@ -70,35 +70,42 @@ cp .env.example .env
 
 다음 중 하나의 방법으로 API 키를 설정할 수 있습니다:
 
-#### 옵션 A: Alibaba Cloud DashScope 사용 (권장)
+#### 옵션 A: 로컬 Qwen 모델 사용 - Ollama (권장)
 
-1. [DashScope Console](https://dashscope.console.aliyun.com/)에서 API 키 발급
-2. `.env` 파일에 키 입력:
-   ```
-   DASHSCOPE_API_KEY=your-api-key-here
-   ```
-
-#### 옵션 B: 로컬 Qwen 모델 사용 (Ollama/vLLM)
-
-로컬에서 Qwen 모델을 실행하는 경우:
+로컬에서 Ollama를 사용하여 Qwen 모델을 실행:
 
 ```bash
-# Ollama 예시
-ollama pull qwen2.5
+# 1. Ollama 설치 (https://ollama.ai/)
+# 2. Qwen 모델 다운로드
+ollama pull qwen2.5:8b
 
-# .env 설정
+# 3. Ollama 실행 (자동으로 백그라운드에서 실행됨)
+ollama run qwen2.5:8b
+
+# 4. .env 파일 생성 (이미 기본값으로 설정되어 있음)
+cp .env.example .env
+```
+
+`.env` 파일 내용:
+```
 QWEN_BASE_URL=http://localhost:11434/v1
 QWEN_API_KEY=ollama
 ```
 
-그리고 `app/actions.tsx`에서 provider 초기화 부분을 수정:
+#### 옵션 B: Alibaba Cloud DashScope 사용
 
-```typescript
-const qwen = createQwen({
-  baseURL: process.env.QWEN_BASE_URL,
-  apiKey: process.env.QWEN_API_KEY,
-})
-```
+클라우드 API를 사용하는 경우:
+
+1. [DashScope Console](https://dashscope.console.aliyun.com/)에서 API 키 발급
+2. `.env` 파일 수정:
+   ```
+   QWEN_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+   QWEN_API_KEY=your-api-key-here
+   ```
+3. `app/actions.tsx`에서 모델명을 변경:
+   ```typescript
+   model: qwen('qwen-plus')  // 또는 'qwen-max', 'qwen-turbo'
+   ```
 
 ### 3. 개발 서버 실행
 
@@ -208,9 +215,18 @@ const tools = {
 
 `app/actions.tsx`에서 모델을 변경할 수 있습니다:
 
+**Ollama 모델 변경:**
 ```typescript
-const { textStream: aiTextStream, toolCalls } = await streamText({
-  model: qwen('qwen-max'),  // 또는 'qwen-plus', 'qwen-turbo' 등
+const result = await streamUI({
+  model: qwen('qwen2.5:8b'),  // 또는 'qwen2.5:14b', 'qwen2.5:32b' 등
+  // ...
+})
+```
+
+**DashScope 클라우드 모델 사용:**
+```typescript
+const result = await streamUI({
+  model: qwen('qwen-plus'),  // 또는 'qwen-max', 'qwen-turbo' 등
   // ...
 })
 ```
