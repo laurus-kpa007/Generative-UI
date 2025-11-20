@@ -383,7 +383,7 @@ export async function continueConversation(
   const uiStream = createStreamableUI()
 
   const result = await streamUI({
-    model: qwen('qwen2.5:8b'),
+    model: qwen('qwen3:14b'),
     system: `You are a helpful assistant that can display rich UI components.
 When users ask about stocks, weather, products, flights, recipes, news, hotels, events, restaurants, movies, books, or exercises, use the appropriate tool to show visual information.
 Be conversational and helpful. Always try to use tools when appropriate to make the response more engaging.
