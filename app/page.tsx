@@ -8,13 +8,12 @@ export default function Home() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isLoading) return
 
     const userMessage: Message = {
       role: 'user',
-      content: input,
+      content: text,
     }
 
     setMessages(prev => [...prev, userMessage])
@@ -38,6 +37,15 @@ export default function Home() {
     }
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await sendMessage(input)
+  }
+
+  const handleSuggestionClick = async (suggestion: string) => {
+    await sendMessage(suggestion)
+  }
+
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -53,29 +61,52 @@ export default function Home() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
         {messages.length === 0 && (
-          <div className="text-center py-12">
-            <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+          <div className="text-center py-8 max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-3">
               Welcome to Generative UI Demo
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
-              Try asking about:
+              Click any example below to see AI-generated UI components in action! 🚀
             </p>
-            <div className="grid gap-3 max-w-2xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {[
-                'Show me Apple stock price',
-                'What\'s the weather in Seoul?',
-                'Show me a product: iPhone 15 Pro',
-                'Find flights from ICN to LAX',
+                { emoji: '📈', text: 'Show me Apple stock price', category: 'Finance' },
+                { emoji: '☀️', text: 'What\'s the weather in Seoul?', category: 'Weather' },
+                { emoji: '📱', text: 'Show me iPhone 15 Pro product', category: 'Product' },
+                { emoji: '✈️', text: 'Find flights from ICN to LAX', category: 'Travel' },
+                { emoji: '🍝', text: 'Show me a recipe for Spaghetti Carbonara', category: 'Recipe' },
+                { emoji: '📰', text: 'Show me latest tech news', category: 'News' },
+                { emoji: '🏨', text: 'Find hotels in Tokyo', category: 'Hotel' },
+                { emoji: '🎭', text: 'Show me upcoming concerts in Seoul', category: 'Event' },
+                { emoji: '🍕', text: 'Find Italian restaurants nearby', category: 'Restaurant' },
+                { emoji: '🎬', text: 'Show me info about The Shawshank Redemption', category: 'Movie' },
+                { emoji: '📚', text: 'Tell me about the book 1984 by George Orwell', category: 'Book' },
+                { emoji: '💪', text: 'Suggest a workout routine for beginners', category: 'Exercise' },
               ].map((suggestion, i) => (
                 <button
                   key={i}
-                  onClick={() => setInput(suggestion)}
-                  className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-left text-sm text-gray-700 dark:text-gray-300 transition-colors"
+                  onClick={() => handleSuggestionClick(suggestion.text)}
+                  disabled={isLoading}
+                  className="group relative px-4 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md text-left transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {suggestion}
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl flex-shrink-0">{suggestion.emoji}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-1">
+                        {suggestion.category}
+                      </div>
+                      <div className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
+                        {suggestion.text}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-blue-400/5 to-blue-400/0 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none" />
                 </button>
               ))}
             </div>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-6">
+              💡 Tip: Each card demonstrates a different type of AI-generated UI component
+            </p>
           </div>
         )}
 
