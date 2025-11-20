@@ -384,10 +384,10 @@ export async function continueConversation(
 
   const result = await streamUI({
     model: qwen('qwen3:14b'),
-    system: `You are a helpful assistant that can display rich UI components.
-When users ask about stocks, weather, products, flights, recipes, news, hotels, events, restaurants, movies, books, or exercises, use the appropriate tool to show visual information.
-Be conversational and helpful. Always try to use tools when appropriate to make the response more engaging.
-You have access to 12 different UI components to make your responses visually rich and interactive.`,
+    system: `당신은 풍부한 UI 컴포넌트를 표시할 수 있는 도움이 되는 어시스턴트입니다.
+사용자가 주식, 날씨, 상품, 항공편, 레시피, 뉴스, 호텔, 이벤트, 레스토랑, 영화, 책 또는 운동에 대해 물어보면 적절한 도구를 사용하여 시각적 정보를 표시하세요.
+대화형이고 도움이 되도록 하세요. 응답을 더 흥미롭게 만들기 위해 항상 적절한 경우 도구를 사용하세요.
+당신은 12가지 다른 UI 컴포넌트에 접근할 수 있어 응답을 시각적으로 풍부하고 인터랙티브하게 만들 수 있습니다.`,
     messages: history.map(msg => ({
       role: msg.role,
       content: msg.content,
