@@ -5,17 +5,39 @@ Vercel의 AI 템플릿을 참고하여 만든 Generative UI 데모 프로젝트�
 ## 주요 기능
 
 - **Generative UI**: AI가 대화 내용에 따라 동적으로 React 컴포넌트를 생성
+- **12가지 UI 컴포넌트**: 금융, 여행, 날씨, 쇼핑, 음식, 미디어, 이벤트 등 다양한 카테고리
+- **인터랙티브 온보딩**: 클릭 한 번으로 모든 컴포넌트를 즉시 테스트
 - **오픈소스 LLM**: Qwen 모델 사용 (Alibaba Cloud의 강력한 LLM)
 - **React Server Components**: Next.js의 RSC를 활용한 서버 사이드 렌더링
 - **Tool Calling**: AI가 적절한 시각화 도구를 선택하여 정보 표시
 - **실시간 스트리밍**: Vercel AI SDK의 streamUI를 통한 실시간 UI 업데이트
+- **반응형 디자인**: 모바일, 태블릿, 데스크톱 모두 지원
 
-## 지원하는 UI 컴포넌트
+## 지원하는 UI 컴포넌트 (총 12개)
 
-1. **주식 카드** - 주식 심볼, 가격, 변동률 표시
-2. **날씨 카드** - 도시별 날씨 정보 표시
-3. **상품 카드** - 제품 정보 및 가격 표시
-4. **항공편 카드** - 항공편 정보 표시
+### 금융 & 여행
+1. **주식 카드** 📈 - 주식 심볼, 가격, 변동률 표시
+2. **항공편 카드** ✈️ - 항공편 정보, 출발/도착 시간, 가격
+3. **호텔 카드** 🏨 - 호텔 정보, 별점, 편의시설, 가격
+
+### 날씨 & 위치
+4. **날씨 카드** ☀️ - 도시별 날씨 정보, 온도, 날씨 상태
+5. **레스토랑 카드** 🍕 - 레스토랑 정보, 요리 종류, 평점, 영업 상태
+
+### 쇼핑 & 상품
+6. **상품 카드** 📱 - 제품 정보, 가격, 설명, 평점
+
+### 음식 & 레시피
+7. **레시피 카드** 🍝 - 요리법, 조리 시간, 인분, 난이도, 재료
+
+### 미디어 & 엔터테인먼트
+8. **영화 카드** 🎬 - 영화 정보, 평점, 장르, 감독, 줄거리
+9. **책 카드** 📚 - 도서 정보, 저자, 평점, 출판 연도, 설명
+10. **뉴스 카드** 📰 - 뉴스 기사, 출처, 카테고리, 요약
+
+### 이벤트 & 활동
+11. **이벤트 카드** 🎭 - 이벤트 정보, 일시, 장소, 참석자 수
+12. **운동 카드** 💪 - 운동 루틴, 소요 시간, 소모 칼로리, 난이도
 
 ## 기술 스택
 
@@ -92,12 +114,33 @@ pnpm dev
 
 ## 사용 예시
 
-채팅창에서 다음과 같은 질문을 해보세요:
+앱을 실행하면 **인터랙티브 온보딩 화면**이 나타납니다. 12개의 예시 버튼을 클릭하면 즉시 해당 UI 컴포넌트가 생성됩니다!
 
-- "Show me Apple stock price" - 주식 카드 생성
-- "What's the weather in Seoul?" - 날씨 카드 생성
-- "Show me a product: iPhone 15 Pro" - 상품 카드 생성
-- "Find flights from ICN to LAX" - 항공편 카드 생성
+또는 채팅창에 직접 입력할 수도 있습니다:
+
+### 금융 & 여행
+- "Show me Apple stock price" - 주식 카드
+- "Find flights from ICN to LAX" - 항공편 카드
+- "Find hotels in Tokyo" - 호텔 카드
+
+### 날씨 & 위치
+- "What's the weather in Seoul?" - 날씨 카드
+- "Find Italian restaurants nearby" - 레스토랑 카드
+
+### 쇼핑 & 상품
+- "Show me iPhone 15 Pro product" - 상품 카드
+
+### 음식 & 레시피
+- "Show me a recipe for Spaghetti Carbonara" - 레시피 카드
+
+### 미디어 & 엔터테인먼트
+- "Show me info about The Shawshank Redemption" - 영화 카드
+- "Tell me about the book 1984 by George Orwell" - 책 카드
+- "Show me latest tech news" - 뉴스 카드
+
+### 이벤트 & 활동
+- "Show me upcoming concerts in Seoul" - 이벤트 카드
+- "Suggest a workout routine for beginners" - 운동 카드
 
 ## 프로젝트 구조
 
@@ -113,6 +156,14 @@ pnpm dev
 │   ├── weather-card.tsx     # 날씨 카드
 │   ├── product-card.tsx     # 상품 카드
 │   ├── flight-card.tsx      # 항공편 카드
+│   ├── recipe-card.tsx      # 레시피 카드
+│   ├── news-card.tsx        # 뉴스 카드
+│   ├── hotel-card.tsx       # 호텔 카드
+│   ├── event-card.tsx       # 이벤트 카드
+│   ├── restaurant-card.tsx  # 레스토랑 카드
+│   ├── movie-card.tsx       # 영화 카드
+│   ├── book-card.tsx        # 책 카드
+│   ├── exercise-card.tsx    # 운동 카드
 │   └── skeleton.tsx         # 로딩 스켈레톤
 └── package.json
 ```
