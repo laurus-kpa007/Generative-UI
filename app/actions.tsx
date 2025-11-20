@@ -1,8 +1,7 @@
 'use server'
 
-import { createStreamableUI, createStreamableValue } from 'ai/rsc'
+import { createStreamableUI, streamUI } from 'ai/rsc'
 import { createQwen } from 'qwen-ai-provider'
-import { streamText } from 'ai'
 import { ReactNode } from 'react'
 import { z } from 'zod'
 import { StockCard } from '@/components/stock-card'
@@ -380,52 +379,27 @@ export async function continueConversation(
 ): Promise<Message> {
   'use server'
 
-  const stream = createStreamableUI()
-  const textStream = createStreamableValue('')
+  const uiStream = createStreamableUI()
 
-  ;(async () => {
-    const { textStream: aiTextStream, toolCalls } = await streamText({
-      model: qwen('qwen-plus'),
-      system: `You are a helpful assistant that can display rich UI components.
+  const result = await streamUI({
+    model: qwen('qwen-plus'),
+    system: `You are a helpful assistant that can display rich UI components.
 When users ask about stocks, weather, products, flights, recipes, news, hotels, events, restaurants, movies, books, or exercises, use the appropriate tool to show visual information.
 Be conversational and helpful. Always try to use tools when appropriate to make the response more engaging.
 You have access to 12 different UI components to make your responses visually rich and interactive.`,
-      messages: history.map(msg => ({
-        role: msg.role,
-        content: msg.content,
-      })),
-      tools,
-    })
-
-    let hasToolCall = false
-
-    // Stream the text response
-    for await (const delta of aiTextStream) {
-      textStream.update(delta)
-    }
-
-    // Handle tool calls
-    for await (const toolCall of toolCalls) {
-      hasToolCall = true
-      const tool = tools[toolCall.toolName as keyof typeof tools]
-      if (tool && 'generate' in tool) {
-        for await (const node of tool.generate(toolCall.args as any)) {
-          stream.update(node)
-        }
-      }
-    }
-
-    if (!hasToolCall) {
-      stream.done(null)
-    } else {
-      stream.done()
-    }
-    textStream.done()
-  })()
+    messages: history.map(msg => ({
+      role: msg.role,
+      content: msg.content,
+    })),
+    text: ({ content }) => {
+      return <div>{content}</div>
+    },
+    tools,
+  })
 
   return {
     role: 'assistant',
-    content: textStream.value,
-    display: stream.value,
+    content: '',
+    display: result.value,
   }
 }
