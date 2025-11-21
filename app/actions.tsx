@@ -34,22 +34,31 @@ const tools = {
         price: z.number().describe('Current stock price'),
         change: z.number().describe('Percentage change'),
       })).describe('Array of stock information'),
+      explanation: z.string().describe('한국어로 표시된 주식 정보에 대한 추가 설명, 분석, 인사이트 (2-4문장)'),
     }),
-    generate: async function* ({ stocks }: {
+    generate: async function* ({ stocks, explanation }: {
       stocks: Array<{
         symbol: string
         price: number
         change: number
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {stocks.map((stock, i) => (
-            <StockCard key={i} symbol={stock.symbol} price={stock.price} change={stock.change} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {stocks.map((stock, i) => (
+              <StockCard key={i} symbol={stock.symbol} price={stock.price} change={stock.change} />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -61,22 +70,31 @@ const tools = {
         temperature: z.number().describe('Temperature in Celsius'),
         condition: z.string().describe('Weather condition'),
       })).describe('Array of weather information'),
+      explanation: z.string().describe('한국어로 표시된 날씨 정보에 대한 추가 설명, 조언 (2-4문장)'),
     }),
-    generate: async function* ({ cities }: {
+    generate: async function* ({ cities, explanation }: {
       cities: Array<{
         city: string
         temperature: number
         condition: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {cities.map((weather, i) => (
-            <WeatherCard key={i} city={weather.city} temperature={weather.temperature} condition={weather.condition} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {cities.map((weather, i) => (
+              <WeatherCard key={i} city={weather.city} temperature={weather.temperature} condition={weather.condition} />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -89,23 +107,32 @@ const tools = {
         description: z.string().describe('Product description'),
         rating: z.number().optional().describe('Product rating (0-5)'),
       })).describe('Array of product information'),
+      explanation: z.string().describe('한국어로 표시된 제품에 대한 추가 설명, 추천 이유 (2-4문장)'),
     }),
-    generate: async function* ({ products }: {
+    generate: async function* ({ products, explanation }: {
       products: Array<{
         name: string
         price: number
         description: string
         rating?: number
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {products.map((product, i) => (
-            <ProductCard key={i} name={product.name} price={product.price} description={product.description} rating={product.rating} />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {products.map((product, i) => (
+              <ProductCard key={i} name={product.name} price={product.price} description={product.description} rating={product.rating} />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -120,8 +147,9 @@ const tools = {
         price: z.number().describe('Flight price'),
         airline: z.string().describe('Airline name'),
       })).describe('Array of flight information'),
+      explanation: z.string().describe('한국어로 표시된 항공편에 대한 추가 정보, 여행 팁 (2-4문장)'),
     }),
-    generate: async function* ({ flights }: {
+    generate: async function* ({ flights, explanation }: {
       flights: Array<{
         from: string
         to: string
@@ -130,23 +158,31 @@ const tools = {
         price: number
         airline: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {flights.map((flight, i) => (
-            <FlightCard
-              key={i}
-              from={flight.from}
-              to={flight.to}
-              departure={flight.departure}
-              arrival={flight.arrival}
-              price={flight.price}
-              airline={flight.airline}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {flights.map((flight, i) => (
+              <FlightCard
+                key={i}
+                from={flight.from}
+                to={flight.to}
+                departure={flight.departure}
+                arrival={flight.arrival}
+                price={flight.price}
+                airline={flight.airline}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -160,8 +196,9 @@ const tools = {
         difficulty: z.enum(['Easy', 'Medium', 'Hard']).describe('Difficulty level'),
         ingredients: z.array(z.string()).describe('List of ingredients'),
       })).describe('Array of recipe information'),
+      explanation: z.string().describe('한국어로 표시된 레시피에 대한 추가 설명, 요리 팁 (2-4문장)'),
     }),
-    generate: async function* ({ recipes }: {
+    generate: async function* ({ recipes, explanation }: {
       recipes: Array<{
         name: string
         cookTime: number
@@ -169,22 +206,30 @@ const tools = {
         difficulty: 'Easy' | 'Medium' | 'Hard'
         ingredients: string[]
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {recipes.map((recipe, i) => (
-            <RecipeCard
-              key={i}
-              name={recipe.name}
-              cookTime={recipe.cookTime}
-              servings={recipe.servings}
-              difficulty={recipe.difficulty}
-              ingredients={recipe.ingredients}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {recipes.map((recipe, i) => (
+              <RecipeCard
+                key={i}
+                name={recipe.name}
+                cookTime={recipe.cookTime}
+                servings={recipe.servings}
+                difficulty={recipe.difficulty}
+                ingredients={recipe.ingredients}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -198,8 +243,9 @@ const tools = {
         summary: z.string().describe('Article summary'),
         category: z.string().optional().describe('News category'),
       })).describe('Array of news articles'),
+      explanation: z.string().describe('한국어로 표시된 뉴스에 대한 추가 맥락, 분석 (2-4문장)'),
     }),
-    generate: async function* ({ articles }: {
+    generate: async function* ({ articles, explanation }: {
       articles: Array<{
         title: string
         source: string
@@ -207,22 +253,30 @@ const tools = {
         summary: string
         category?: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {articles.map((article, i) => (
-            <NewsCard
-              key={i}
-              title={article.title}
-              source={article.source}
-              publishedAt={article.publishedAt}
-              summary={article.summary}
-              category={article.category}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {articles.map((article, i) => (
+              <NewsCard
+                key={i}
+                title={article.title}
+                source={article.source}
+                publishedAt={article.publishedAt}
+                summary={article.summary}
+                category={article.category}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -237,8 +291,9 @@ const tools = {
         amenities: z.array(z.string()).describe('Hotel amenities'),
         starRating: z.number().describe('Star rating (1-5)'),
       })).describe('Array of hotel information'),
+      explanation: z.string().describe('한국어로 표시된 호텔에 대한 추가 정보, 추천 이유 (2-4문장)'),
     }),
-    generate: async function* ({ hotels }: {
+    generate: async function* ({ hotels, explanation }: {
       hotels: Array<{
         name: string
         location: string
@@ -247,23 +302,31 @@ const tools = {
         amenities: string[]
         starRating: number
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {hotels.map((hotel, i) => (
-            <HotelCard
-              key={i}
-              name={hotel.name}
-              location={hotel.location}
-              rating={hotel.rating}
-              pricePerNight={hotel.pricePerNight}
-              amenities={hotel.amenities}
-              starRating={hotel.starRating}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {hotels.map((hotel, i) => (
+              <HotelCard
+                key={i}
+                name={hotel.name}
+                location={hotel.location}
+                rating={hotel.rating}
+                pricePerNight={hotel.pricePerNight}
+                amenities={hotel.amenities}
+                starRating={hotel.starRating}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -278,8 +341,9 @@ const tools = {
         category: z.string().describe('Event category'),
         attendees: z.number().optional().describe('Number of attendees'),
       })).describe('Array of events'),
+      explanation: z.string().describe('한국어로 표시된 이벤트에 대한 추가 정보, 참석 팁 (2-4문장)'),
     }),
-    generate: async function* ({ events }: {
+    generate: async function* ({ events, explanation }: {
       events: Array<{
         title: string
         date: string
@@ -288,23 +352,31 @@ const tools = {
         category: string
         attendees?: number
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {events.map((event, i) => (
-            <EventCard
-              key={i}
-              title={event.title}
-              date={event.date}
-              time={event.time}
-              location={event.location}
-              category={event.category}
-              attendees={event.attendees}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {events.map((event, i) => (
+              <EventCard
+                key={i}
+                title={event.title}
+                date={event.date}
+                time={event.time}
+                location={event.location}
+                category={event.category}
+                attendees={event.attendees}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -319,8 +391,9 @@ const tools = {
         location: z.string().describe('Restaurant location'),
         openNow: z.boolean().describe('Whether restaurant is open now'),
       })).describe('Array of restaurants'),
+      explanation: z.string().describe('한국어로 표시된 레스토랑에 대한 추가 정보, 추천 이유 (2-4문장)'),
     }),
-    generate: async function* ({ restaurants }: {
+    generate: async function* ({ restaurants, explanation }: {
       restaurants: Array<{
         name: string
         cuisine: string
@@ -329,23 +402,31 @@ const tools = {
         location: string
         openNow: boolean
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {restaurants.map((restaurant, i) => (
-            <RestaurantCard
-              key={i}
-              name={restaurant.name}
-              cuisine={restaurant.cuisine}
-              rating={restaurant.rating}
-              priceRange={restaurant.priceRange}
-              location={restaurant.location}
-              openNow={restaurant.openNow}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {restaurants.map((restaurant, i) => (
+              <RestaurantCard
+                key={i}
+                name={restaurant.name}
+                cuisine={restaurant.cuisine}
+                rating={restaurant.rating}
+                priceRange={restaurant.priceRange}
+                location={restaurant.location}
+                openNow={restaurant.openNow}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -361,8 +442,9 @@ const tools = {
         director: z.string().describe('Director name'),
         plot: z.string().describe('Plot summary'),
       })).describe('Array of movies'),
+      explanation: z.string().describe('한국어로 표시된 영화에 대한 추가 정보, 감상 포인트 (2-4문장)'),
     }),
-    generate: async function* ({ movies }: {
+    generate: async function* ({ movies, explanation }: {
       movies: Array<{
         title: string
         year: number
@@ -372,24 +454,32 @@ const tools = {
         director: string
         plot: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {movies.map((movie, i) => (
-            <MovieCard
-              key={i}
-              title={movie.title}
-              year={movie.year}
-              rating={movie.rating}
-              genre={movie.genre}
-              duration={movie.duration}
-              director={movie.director}
-              plot={movie.plot}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {movies.map((movie, i) => (
+              <MovieCard
+                key={i}
+                title={movie.title}
+                year={movie.year}
+                rating={movie.rating}
+                genre={movie.genre}
+                duration={movie.duration}
+                director={movie.director}
+                plot={movie.plot}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -405,8 +495,9 @@ const tools = {
         publishedYear: z.number().describe('Publication year'),
         description: z.string().describe('Book description'),
       })).describe('Array of books'),
+      explanation: z.string().describe('한국어로 표시된 책에 대한 추가 정보, 추천 이유 (2-4문장)'),
     }),
-    generate: async function* ({ books }: {
+    generate: async function* ({ books, explanation }: {
       books: Array<{
         title: string
         author: string
@@ -416,24 +507,32 @@ const tools = {
         publishedYear: number
         description: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {books.map((book, i) => (
-            <BookCard
-              key={i}
-              title={book.title}
-              author={book.author}
-              rating={book.rating}
-              pages={book.pages}
-              genre={book.genre}
-              publishedYear={book.publishedYear}
-              description={book.description}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {books.map((book, i) => (
+              <BookCard
+                key={i}
+                title={book.title}
+                author={book.author}
+                rating={book.rating}
+                pages={book.pages}
+                genre={book.genre}
+                publishedYear={book.publishedYear}
+                description={book.description}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -448,8 +547,9 @@ const tools = {
         difficulty: z.enum(['Beginner', 'Intermediate', 'Advanced']).describe('Difficulty level'),
         description: z.string().describe('Exercise description'),
       })).describe('Array of exercises'),
+      explanation: z.string().describe('한국어로 표시된 운동에 대한 추가 정보, 운동 팁 (2-4문장)'),
     }),
-    generate: async function* ({ exercises }: {
+    generate: async function* ({ exercises, explanation }: {
       exercises: Array<{
         name: string
         type: string
@@ -458,23 +558,31 @@ const tools = {
         difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
         description: string
       }>
+      explanation: string
     }) {
       yield <Skeleton />
       await new Promise(resolve => setTimeout(resolve, 1000))
       return (
-        <div className="flex flex-wrap gap-3">
-          {exercises.map((exercise, i) => (
-            <ExerciseCard
-              key={i}
-              name={exercise.name}
-              type={exercise.type}
-              duration={exercise.duration}
-              caloriesBurned={exercise.caloriesBurned}
-              difficulty={exercise.difficulty}
-              description={exercise.description}
-            />
-          ))}
-        </div>
+        <>
+          <div className="flex flex-wrap gap-3">
+            {exercises.map((exercise, i) => (
+              <ExerciseCard
+                key={i}
+                name={exercise.name}
+                type={exercise.type}
+                duration={exercise.duration}
+                caloriesBurned={exercise.caloriesBurned}
+                difficulty={exercise.difficulty}
+                description={exercise.description}
+              />
+            ))}
+          </div>
+          <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {explanation}
+            </p>
+          </div>
+        </>
       )
     },
   },
@@ -503,12 +611,12 @@ export async function continueConversation(
 - 예: 레시피 2개를 요청하면 recipes 배열에 2개 모두 포함
 - 절대 첫 번째 항목만 보여주지 말고, 요청받은 모든 항목을 배열에 포함하세요.
 
-**텍스트 설명 규칙:**
-- 도구를 사용하여 UI 카드를 표시한 후, 반드시 추가 설명 텍스트를 제공하세요.
-- 추가 설명은 한국어로 2-4문장 정도로 작성하세요.
-- 표시된 정보에 대한 맥락, 인사이트, 추가 정보를 포함하세요.
-- 예: 주식 정보를 표시한 후 "현재 시장 상황을 고려하면..." 같은 분석 추가
-- 예: 레시피를 표시한 후 "이 요리는 초보자도 쉽게 만들 수 있으며..." 같은 팁 추가
+**설명(explanation) 파라미터 규칙:**
+- 모든 도구는 반드시 explanation 파라미터를 포함해야 합니다.
+- explanation은 한국어로 2-4문장 정도로 작성하세요.
+- 표시된 정보에 대한 맥락, 인사이트, 추가 정보, 팁을 포함하세요.
+- 예: 주식 → "현재 시장 상황을 고려하면 안정적인 투자 대상입니다. 장기 보유를 권장합니다."
+- 예: 레시피 → "이 요리는 초보자도 쉽게 만들 수 있으며, 30분 안에 완성할 수 있습니다. 신선한 재료를 사용하면 더욱 맛있습니다."
 
 대화형이고 도움이 되도록 하세요. 응답을 더 흥미롭게 만들기 위해 항상 적절한 경우 도구를 사용하세요.
 당신은 12가지 다른 UI 컴포넌트에 접근할 수 있어 응답을 시각적으로 풍부하고 인터랙티브하게 만들 수 있습니다.`,
