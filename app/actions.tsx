@@ -1,6 +1,6 @@
 'use server'
 
-import { createStreamableUI, streamUI } from 'ai/rsc'
+import { streamUI } from 'ai/rsc'
 import { createQwen } from 'qwen-ai-provider'
 import { ReactNode } from 'react'
 import { z } from 'zod'
@@ -490,8 +490,6 @@ export async function continueConversation(
   history: Message[]
 ): Promise<Message> {
   'use server'
-
-  const uiStream = createStreamableUI()
 
   const result = await streamUI({
     model: qwen('qwen3:14b'),
