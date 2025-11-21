@@ -505,6 +505,13 @@ export async function continueConversation(
 - 예: 레시피 2개를 요청하면 recipes 배열에 2개 모두 포함
 - 절대 첫 번째 항목만 보여주지 말고, 요청받은 모든 항목을 배열에 포함하세요.
 
+**텍스트 설명 규칙:**
+- 도구를 사용하여 UI 카드를 표시한 후, 반드시 추가 설명 텍스트를 제공하세요.
+- 추가 설명은 한국어로 2-4문장 정도로 작성하세요.
+- 표시된 정보에 대한 맥락, 인사이트, 추가 정보를 포함하세요.
+- 예: 주식 정보를 표시한 후 "현재 시장 상황을 고려하면..." 같은 분석 추가
+- 예: 레시피를 표시한 후 "이 요리는 초보자도 쉽게 만들 수 있으며..." 같은 팁 추가
+
 대화형이고 도움이 되도록 하세요. 응답을 더 흥미롭게 만들기 위해 항상 적절한 경우 도구를 사용하세요.
 당신은 12가지 다른 UI 컴포넌트에 접근할 수 있어 응답을 시각적으로 풍부하고 인터랙티브하게 만들 수 있습니다.`,
     messages: history.map(msg => ({
@@ -512,7 +519,15 @@ export async function continueConversation(
       content: msg.content,
     })),
     text: ({ content }) => {
-      return <div>{content}</div>
+      return (
+        <div className="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="prose dark:prose-invert max-w-none">
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+              {content}
+            </p>
+          </div>
+        </div>
+      )
     },
     tools,
   })

@@ -122,24 +122,26 @@ export default function Home() {
                   message.role === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                <div
-                  className={`max-w-[80%] ${
-                    message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700'
-                  } rounded-lg px-4 py-3 shadow-sm`}
-                >
-                  {message.role === 'user' ? (
+                {message.role === 'user' ? (
+                  <div className="max-w-[80%] bg-blue-600 text-white rounded-lg px-4 py-3 shadow-sm">
                     <p className="text-sm">{message.content}</p>
-                  ) : (
-                    <div className="space-y-3">
-                      {message.content && (
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      )}
-                      {message.display && <div className="mt-3">{message.display}</div>}
-                    </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    {message.display && (
+                      <div className="space-y-2">
+                        {message.display}
+                      </div>
+                    )}
+                    {message.content && (
+                      <div className="mt-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <p className="text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">
+                          {message.content}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
